@@ -5,7 +5,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/portfolio/',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -18,6 +18,11 @@ export default defineConfig({
       output: {
         manualChunks: undefined,
       },
+    },
+  },
+  server: {
+    headers: {
+      'Content-Type': 'application/javascript',
     },
   },
 })
