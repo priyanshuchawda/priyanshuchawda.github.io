@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- Sitemap Generated: 2025-05-02 -->
+
+  <!-- Homepage: Highest priority, potentially updated recently -->
+  <url>
+    <loc>https://priyanshutech.xyz/</loc>
+    <lastmod>2025-05-02</lastmod> <!-- Assumes updated today -->
+    <changefreq>weekly</changefreq> <!-- How often homepage content might change -->
+    <priority>1.0</priority>
+  </url>
+
+  <!-- About page: Important, but changes less often -->
+  <url>
+    <loc>https://priyanshutech.xyz/about</loc>
+    <lastmod>2025-05-01</lastmod> <!-- Date last modified -->
+    <changefreq>monthly</changefreq> <!-- How often about info might change -->
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Projects page: Important, updated when new projects added -->
+  <url>
+    <loc>https://priyanshutech.xyz/projects</loc>
+    <lastmod>2025-04-28</lastmod> <!-- Date last modified/project added -->
+    <changefreq>monthly</changefreq> <!-- How often projects page might change -->
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog listing page: Changes when new posts are added -->
+  <url>
+    <loc>https://priyanshutech.xyz/blog</loc>
+    <lastmod>2025-04-20</lastmod> <!-- Date last blog post was added (or page structure changed) -->
+    <changefreq>weekly</changefreq> <!-- Depends on posting frequency -->
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Contact page: Changes infrequently -->
+  <url>
+    <loc>https://priyanshutech.xyz/contact</loc>
+    <lastmod>2025-04-15</lastmod> <!-- Date last modified -->
+    <changefreq>yearly</changefreq> <!-- Contact info rarely changes -->
+    <priority>0.6</priority>
+  </url>
+
+  <!-- == Individual Content Pages == -->
+  <!-- IMPORTANT: Add ALL individual blog posts, project pages, etc. below -->
+
+  <!-- Example Individual Blog Post -->
+  <url>
+    <loc>https://priyanshutech.xyz/blog/how-i-built-portfolio</loc>
+    <lastmod>2025-04-10</lastmod> <!-- Date this specific post was last modified -->
+    <changefreq>never</changefreq>   <!-- Or 'yearly' if you might update it -->
+    <priority>0.5</priority>      <!-- Lower priority than main sections is typical -->
+  </url>
+
+  <!-- Add another <url> block for your next blog post -->
+  <!--
+  <url>
+    <loc>https://priyanshutech.xyz/blog/another-cool-post</loc>
+    <lastmod>YYYY-MM-DD</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
+  </url>
+  -->
+
+  <!-- Add <url> blocks for every other important page -->
+
+</urlset>
