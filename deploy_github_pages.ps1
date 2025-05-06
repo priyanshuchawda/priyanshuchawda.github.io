@@ -23,11 +23,14 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "  Build completed successfully" -ForegroundColor Green
 
-# Step 2: Ensure CNAME file has correct domain
-Write-Host "Step 2: Setting up CNAME file..." -ForegroundColor Green
+# Step 2: Ensure CNAME file and .nojekyll file exist
+Write-Host "Step 2: Setting up CNAME and .nojekyll files..." -ForegroundColor Green
 $cnameContent = "priyanshutech.xyz`nwww.priyanshutech.xyz"
 Set-Content -Path "dist/CNAME" -Value $cnameContent -NoNewline
+# Create empty .nojekyll file to prevent GitHub Pages from using Jekyll processing
+New-Item -Path "dist/.nojekyll" -ItemType File -Force | Out-Null
 Write-Host "  CNAME file created with domains: priyanshutech.xyz, www.priyanshutech.xyz" -ForegroundColor Green
+Write-Host "  .nojekyll file created to prevent Jekyll processing" -ForegroundColor Green
 
 # Step 3: Initialize git in the dist directory
 Write-Host "Step 3: Setting up Git repository in the dist directory..." -ForegroundColor Green
