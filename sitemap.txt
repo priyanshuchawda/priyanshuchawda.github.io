@@ -1,0 +1,15 @@
+https://priyanshutech.xyz/
+https://priyanshutech.xyz/#about
+https://priyanshutech.xyz/#projects
+https://priyanshutech.xyz/#skills
+https://priyanshutech.xyz/#blog
+https://priyanshutech.xyz/blog
+https://priyanshutech.xyz/blog/getting-started-with-typescript-react
+https://priyanshutech.xyz/blog/building-design-system-tailwind-css
+https://priyanshutech.xyz/blog/advanced-react-patterns-scalable-applications
+https://priyanshutech.xyz/projects
+https://priyanshutech.xyz/projects/portfolio-website
+https://priyanshutech.xyz/projects/e-commerce-platform
+https://priyanshutech.xyz/projects/task-management-app
+https://priyanshutech.xyz/projects/weather-dashboard
+https://priyanshutech.xyz/projects/fitness-tracking-app
