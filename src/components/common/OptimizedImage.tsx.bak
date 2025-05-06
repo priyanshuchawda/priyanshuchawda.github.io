@@ -1,0 +1,202 @@
+import React, { useState, useEffect, useRef } from 'react';
+
+interface OptimizedImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+  width?: number;
+  height?: number;
+  priority?: boolean;
+  placeholderColor?: string;
+  quality?: number;
+  objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  blur?: boolean;
+  lazyload?: boolean;
+  sizes?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+  useWebP?: boolean;
+  caption?: string;
+  className2x?: string;
+}
+
+const OptimizedImage: React.FC<OptimizedImageProps> = ({
+  src,
+  alt,
+  className = '',
+  width,
+  height,
+  priority = false,
+  placeholderColor = '#f3f4f6', // Default light gray placeholder
+  quality = 80, // Default quality for images
+  objectFit = 'cover',
+  blur = false,
+  lazyload = true,
+  sizes,
+  fetchpriority = 'auto',
+  loading,
+  decoding = 'async',
+  useWebP = true,
+  caption,
+  className2x = ''
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    setIsLoaded(false);
+    setError(false);
+    
+    // Use Intersection Observer for lazy loading if not priority
+    if (!priority && lazyload && typeof IntersectionObserver !== 'undefined') {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && imgRef.current) {
+              const img = imgRef.current;
+              if (img.dataset.src) {
+                img.src = img.dataset.src;
+              }
+              if (img.dataset.srcset) {
+                img.srcset = img.dataset.srcset;
+              }
+              observer.unobserve(img);
+            }
+          });
+        },
+        { rootMargin: '200px 0px' }
+      );
+      
+      if (imgRef.current) {
+        observer.observe(imgRef.current);
+      }
+      
+      return () => {
+        if (imgRef.current) {
+          observer.unobserve(imgRef.current);
+        }
+      };
+    }
+  }, [src, priority, lazyload]);
+
+  // Handle image loading
+  const handleImageLoaded = () => {
+    setIsLoaded(true);
+  };
+
+  // Handle image error
+  const handleImageError = () => {
+    setError(true);
+    console.error(`Failed to load image: ${src}`);
+  };  // Fix image path if it starts with /public
+  const fixedSrc = src.startsWith('/public') ? src.slice(7) : src;
+  
+  // Generate srcSet for responsive images if width is provided
+  const generateSrcSet = () => {
+    if (!width || fixedSrc.startsWith('http') || !fixedSrc.match(/\.(jpe?g|png|webp)$/i)) {
+      return undefined;
+    }
+
+    // Extract base path and extension
+    const lastDot = src.lastIndexOf('.');
+    const basePath = src.substring(0, lastDot);
+    const extension = src.substring(lastDot);
+
+    // Generate srcSet with different sizes with quality parameter
+    const qualityParam = `?q=${quality}`;
+    return `${basePath}-300w${extension}${qualityParam} 300w, 
+            ${basePath}-600w${extension}${qualityParam} 600w, 
+            ${basePath}-900w${extension}${qualityParam} 900w, 
+            ${src}${qualityParam} 1200w`;
+  };
+  // Fix image path if it starts with /public
+  const fixedSrc = src.startsWith('/public') ? src.slice(7) : src;
+  
+  // For WebP conversion - append format parameter to URL if it's internal
+  const getOptimizedSrc = (imageSrc: string) => {
+    // Fix the path first
+    const fixedImageSrc = imageSrc.startsWith('/public') ? imageSrc.slice(7) : imageSrc;
+    
+    if (fixedImageSrc.startsWith('http') || !fixedImageSrc.match(/\.(jpe?g|png)$/i)) {
+      return fixedImageSrc;
+    }
+    // For internal images, we could switch to WebP format
+    return `${fixedImageSrc}?format=webp&q=${quality}`;
+  };
+
+  const imgSrcSet = generateSrcSet();
+  // Helper function to fix image paths
+  const fixImagePath = (path: string): string => {
+    // If the path starts with /public, remove it
+    if (path.startsWith('/public')) {
+      return path.slice(7);
+    }
+    return path;
+  };
+  
+  const optimizedSrc = getOptimizedSrc(fixImagePath(src));
+  const loadingAttribute = priority ? 'eager' : (lazyload ? 'lazy' : 'eager');
+  const sizes = width ? `(max-width: 768px) 100vw, ${width}px` : '100vw';
+  const blurClass = blur ? 'backdrop-blur-sm' : '';
+
+  return (
+    <div 
+      className={`relative overflow-hidden ${className}`}
+      style={{ 
+        backgroundColor: placeholderColor,
+        width: width ? `${width}px` : '100%',
+        height: height ? `${height}px` : 'auto',
+      }}
+    >
+      {!isLoaded && !error && (
+        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse" />
+      )}      <img
+        ref={imgRef}
+        src={error ? fixImagePath('/images/placeholder.jpg') : (priority || !lazyload ? optimizedSrc : undefined)}
+        data-src={(!priority && lazyload) ? optimizedSrc : undefined}
+        srcSet={error ? undefined : (priority || !lazyload ? imgSrcSet : undefined)}
+        data-srcset={(!priority && lazyload) ? imgSrcSet : undefined}
+        sizes={sizes}
+        alt={alt}
+        loading={loadingAttribute}
+        fetchPriority={priority ? 'high' : 'auto'}
+        decoding={priority ? 'sync' : 'async'}
+        onLoad={handleImageLoaded}
+        onError={handleImageError}
+        className={`w-full h-full object-${objectFit} transition-opacity duration-300 ${blurClass} ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        width={width}
+        height={height}
+        aria-hidden={alt === ''}      
+      />
+      {/* Add image metadata for SEO */}
+      {width && height && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org/',
+            '@type': 'ImageObject',
+            contentUrl: src,
+            width: width,
+            height: height,
+          })
+        }} />
+      )}
+    </div>
+  );
+};
+
+// Helper function to preload critical images
+export const preloadCriticalImages = (imagePaths: string[]) => {
+  if (typeof document !== 'undefined') {
+    imagePaths.forEach(path => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = path;
+      document.head.appendChild(link);
+    });
+  }
+};
+
+export default OptimizedImage;

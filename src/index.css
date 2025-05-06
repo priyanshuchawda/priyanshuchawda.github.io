@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #3B82F6; /* Blue-600 */
+  --color-primary-dark: #2563EB; /* Blue-700 */
+  --color-secondary: #10B981; /* Emerald-500 */
+  --color-secondary-dark: #059669; /* Emerald-600 */
+  --color-accent: #8B5CF6; /* Violet-500 */
+  --color-accent-dark: #7C3AED; /* Violet-600 */
+}
+
+.dark {
+  --color-primary: #60A5FA; /* Blue-400 */
+  --color-primary-dark: #3B82F6; /* Blue-500 */
+  --color-secondary: #34D399; /* Emerald-400 */
+  --color-secondary-dark: #10B981; /* Emerald-500 */
+  --color-accent: #A78BFA; /* Violet-400 */
+  --color-accent-dark: #8B5CF6; /* Violet-500 */
+}
