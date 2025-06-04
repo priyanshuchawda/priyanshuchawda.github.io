@@ -1,15 +1,9 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
+Disallow: /api/
+Disallow: /admin/
+Crawl-delay: 1
 Allow: /
 
 # Sitemap locations
 Sitemap: https://priyanshutech.xyz/sitemap.xml
 Sitemap: https://priyanshutech.xyz/sitemap.txt
-
-# Disallow crawling of development/admin areas
-User-agent: *
-Disallow: /api/
-Disallow: /admin/
-
-# Optimize crawling
-Crawl-delay: 1
